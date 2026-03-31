@@ -2,58 +2,38 @@
 <html>
 
 <head>
-  <title>Elvish Voice System</title>
-
-  <style>
-    body {
-      font-family: Arial;
-      background: #111;
-      color: white;
-      text-align: center;
-      margin-top: 100px;
-    }
-
-    button {
-      padding: 15px 25px;
-      margin: 10px;
-      font-size: 18px;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-    }
-
-    .t2v { background: #4CAF50; }
-    .v2v { background: #2196F3; }
-    .vid { background: #f44336; }
-  </style>
+  <title>Text to Voice</title>
 </head>
 
-<body>
+<body style="background:#111;color:white;text-align:center;margin-top:100px;">
 
-  <h1>🎤 Elvish Voice System</h1>
+  <h1>Text → Voice</h1>
 
-  <button class="t2v" onclick="location.href='text.html'">Text → Voice</button>
-  <button class="v2v" onclick="location.href='voice.html'">Voice → Voice (RVC)</button>
-  <button onclick="testAPI()">Test API</button> 
-  <button class="vid" onclick="location.href='video.html'">Video → Voice</button>
+  <input type="text" id="textInput" placeholder="Enter text">
+  <br><br>
 
-  <!-- ✅ JS yaha likhna hai -->
+  <button onclick="convert()">Convert</button>
+
   <script>
-    async function testAPI() {
-  let res = await fetch("https://singhp08-site.hf.space/run/predict", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      data: []
-    })
-  });
+    async function convert() {
+      let text = document.getElementById("textInput").value;
 
-  let data = await res.json();
+      let res = await fetch("https://singhp08-site.hf.space/run/predict", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          data: [text]
+        })
+      });
 
-  console.log(data); // console me full data
-  alert(data.data[0]); // sirf result show karega
+      let json = await res.json();
+
+      let audioUrl = json.data[0];
+
+      let audio = new Audio(audioUrl);
+      audio.play();
     }
   </script>
 
