@@ -1,0 +1,24 @@
+<h2>Voice to Voice (Elvish RVC)</h2>
+
+<input type="file" id="file">
+<button onclick="convert()">Convert</button>
+
+<audio id="audio" controls></audio>
+
+<script>
+async function convert() {
+  let file = document.getElementById("file").files[0];
+
+  let formData = new FormData();
+  formData.append("data", file);
+
+  let res = await fetch("https://singhp08-site.hf.space/run/predict", {
+    method: "POST",
+    body: formData
+  });
+
+  let data = await res.json();
+
+  document.getElementById("audio").src = data.data[0];
+}
+</script>
