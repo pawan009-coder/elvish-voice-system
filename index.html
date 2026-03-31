@@ -1,5 +1,19 @@
 <!DOCTYPE html>
 <html>
+  async function testAPI() {
+  let res = await fetch("https://singhp08-site.hf.space/run/predict", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      data: []
+    })
+  });
+
+  let data = await res.json();
+  console.log(data);
+}
 <head>
   <title>Elvish Voice System</title>
   <style>
@@ -32,6 +46,7 @@
 
   <button class="t2v" onclick="location.href='text.html'">Text → Voice</button>
   <button class="v2v" onclick="location.href='voice.html'">Voice → Voice (RVC)</button>
+  <button onclick="testAPI()">Test API</button> 
   <button class="vid" onclick="location.href='video.html'">Video → Voice</button>
 
 </body>
