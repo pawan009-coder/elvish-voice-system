@@ -1,14 +1,39 @@
-async function textToVoice(text) {
-  let res = await fetch("https://singhp08-site.hf.space/run/predict", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      data: [text]
-    })
-  });
+<!DOCTYPE html>
+<html>
 
-  let json = await res.json();
-  return json.data[0]; // audio URL
-}
+<head>
+  <title>Text to Voice</title>
+</head>
+
+<body style="background:#111;color:white;text-align:center;margin-top:100px;">
+
+  <h1>🎤 Text → Voice</h1>
+
+  <input type="text" id="textInput" placeholder="Enter text">
+  <br><br>
+
+  <button onclick="convert()">Convert</button>
+
+  <script>
+    async function convert() {
+      let text = document.getElementById("textInput").value;
+
+      let res = await fetch("https://singhp08-site.hf.space/run/predict", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          data: [text]
+        })
+      });
+
+      let json = await res.json();
+      let audioUrl = json.data[0];
+
+      let audio = new Audio(audioUrl);
+      audio.play();
+    }
+  </script>
+
+</
