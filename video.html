@@ -1,12 +1,38 @@
-async function videoToVoice(file) {
-  let formData = new FormData();
-  formData.append("data", file);
+<!DOCTYPE html>
+<html>
 
-  let res = await fetch("https://singhp08-site.hf.space/run/predict", {
-    method: "POST",
-    body: formData
-  });
+<head>
+  <title>Video to Voice</title>
+</head>
 
-  let json = await res.json();
-  return json.data[0];
-}
+<body style="background:#111;color:white;text-align:center;margin-top:100px;">
+
+  <h1>🎬 Video → Voice</h1>
+
+  <input type="file" id="videoInput">
+  <br><br>
+
+  <button onclick="convertVideo()">Convert</button>
+
+  <script>
+    async function convertVideo() {
+      let file = document.getElementById("videoInput").files[0];
+
+      let formData = new FormData();
+      formData.append("data", file);
+
+      let res = await fetch("https://singhp08-site.hf.space/run/predict", {
+        method: "POST",
+        body: formData
+      });
+
+      let json = await res.json();
+      let audioUrl = json.data[0];
+
+      let audio = new Audio(audioUrl);
+      audio.play();
+    }
+  </script>
+
+</body>
+</html>
