@@ -2,38 +2,107 @@
 <html>
 
 <head>
-  <title>Text to Voice</title>
+  <title>Elvish Voice System</title>
+
+  <style>
+    body {
+      font-family: Arial;
+      background: linear-gradient(135deg, #111, #1a1a1a);
+      color: white;
+      text-align: center;
+      margin-top: 80px;
+    }
+
+    h1 {
+      font-size: 40px;
+      margin-bottom: 30px;
+    }
+
+    button {
+      padding: 20px 40px;
+      margin: 15px;
+      font-size: 20px;
+      border: none;
+      border-radius: 15px;
+      cursor: pointer;
+      width: 80%;
+      max-width: 300px;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+      opacity: 0.9;
+    }
+
+    .t2v { background: #4CAF50; }
+    .v2v { background: #2196F3; }
+    .vid { background: #f44336; }
+    .test { background: #ff9800; }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    footer {
+      margin-top: 50px;
+      font-size: 14px;
+      color: gray;
+    }
+  </style>
+
 </head>
 
-<body style="background:#111;color:white;text-align:center;margin-top:100px;">
+<body>
 
-  <h1>Text → Voice</h1>
+  <h1>🎤 Elvish Voice System</h1>
 
-  <input type="text" id="textInput" placeholder="Enter text">
-  <br><br>
+  <div class="container">
 
-  <button onclick="convert()">Convert</button>
+    <button class="t2v" onclick="location.href='text.html'">
+      Text → Voice
+    </button>
+
+    <button class="v2v" onclick="location.href='voice.html'">
+      Voice → Voice (RVC)
+    </button>
+
+    <button class="vid" onclick="location.href='video.html'">
+      Video → Voice
+    </button>
+
+    <button class="test" onclick="testAPI()">
+      Test API Connection
+    </button>
+
+  </div>
+
+  <footer>
+    Made by Pawan 🚀
+  </footer>
 
   <script>
-    async function convert() {
-      let text = document.getElementById("textInput").value;
+    async function testAPI() {
+      try {
+        let res = await fetch("https://singhp08-site.hf.space/run/predict", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            data: []
+          })
+        });
 
-      let res = await fetch("https://singhp08-site.hf.space/run/predict", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          data: [text]
-        })
-      });
+        let data = await res.json();
 
-      let json = await res.json();
+        alert("API Connected ✅\n" + data.data[0]);
 
-      let audioUrl = json.data[0];
-
-      let audio = new Audio(audioUrl);
-      audio.play();
+      } catch (error) {
+        alert("API Error ❌\n" + error);
+      }
     }
   </script>
 
